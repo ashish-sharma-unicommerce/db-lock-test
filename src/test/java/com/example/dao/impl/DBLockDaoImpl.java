@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -16,11 +17,11 @@ import org.springframework.util.CollectionUtils;
  * @author Ashish Sharma on 09/12/19.
  */
 @Repository
-@Transactional
 public class DBLockDaoImpl implements DBLockDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Transactional
     public DatabaseLock getLock(String path) {
         try {
             Query query = sessionFactory.getCurrentSession().createQuery("select id from DatabaseLock where lockPath = :path");
@@ -41,6 +42,7 @@ public class DBLockDaoImpl implements DBLockDao {
         return null;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public DatabaseLock createLock(String path) {
         DatabaseLock lock = new DatabaseLock();
         lock.setLockPath(path);
