@@ -2,6 +2,8 @@ package com.example.service.impl;
 
 import java.util.concurrent.locks.Lock;
 
+import com.example.bean.Order;
+import com.example.dao.OrderDao;
 import com.example.service.LockService;
 import com.example.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private LockService lockService;
 
+    @Autowired
+    private OrderDao orderDao;
+
     @Override
     @Transactional
     public void doTask() {
@@ -30,6 +35,9 @@ public class TaskServiceImpl implements TaskService {
                 System.out.println("Exception in thread: " + Thread.currentThread().getName() + "./n" + e.getMessage());
             }
         }
+        Order order = new Order();
+        order.setCode("Order: " + System.currentTimeMillis());
+        orderDao.saveOrder(order);
 
         lock.unlock();
     }

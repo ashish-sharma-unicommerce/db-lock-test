@@ -28,10 +28,12 @@ public class DBLock implements Lock {
         DatabaseLock lock = lockDao.getLock(path);
         try {
             if(lock == null) {
+                Thread.sleep(1000);
                 lockDao.createLock(path);
                 lock = lockDao.getLock(path);
             }
         } catch (Exception e) {
+            System.out.println("Lock pahle se hi hai bhai!");
             //e.printStackTrace();
         }
         System.out.println("Lock acquired on path=" + path + " by thread: " + Thread.currentThread().getName());

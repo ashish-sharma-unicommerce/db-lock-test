@@ -1,11 +1,12 @@
 package com.example.config;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 import com.example.dao.DBLockDao;
+import com.example.dao.OrderDao;
 import com.example.dao.impl.DBLockDaoImpl;
+import com.example.dao.impl.OrderDaoImpl;
 import com.example.service.LockService;
 import com.example.service.TaskService;
 import com.example.service.impl.LockServiceImpl;
@@ -57,19 +58,25 @@ public class TestConfiguration {
 
 
     @Bean("lockSerive")
-    public LockService lockService() throws IOException {
+    public LockService lockService() {
         return new LockServiceImpl();
     }
 
 
     @Bean("takService")
-    public TaskService takService() throws IOException {
+    public TaskService takService() {
         return new TaskServiceImpl();
     }
 
     @Bean("dbLockDao")
-    public DBLockDao dbLockDao() throws IOException {
+    public DBLockDao dbLockDao() {
         return new DBLockDaoImpl();
+    }
+
+
+    @Bean("orderDao")
+    public OrderDao orderDao() {
+        return new OrderDaoImpl();
     }
 
 
